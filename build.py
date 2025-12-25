@@ -191,6 +191,12 @@ class SiteBuilder:
             shutil.copytree(assets_dir, output_dir / 'assets')
             print(f"Copied assets to {output_dir / 'assets'}")
 
+        # Copy CNAME file for custom domain (if exists)
+        cname_file = Path('CNAME')
+        if cname_file.exists():
+            shutil.copy(cname_file, output_dir / 'CNAME')
+            print(f"Copied CNAME file for custom domain")
+
         print(f"\nSite built successfully in '{output_dir}'")
         print(f"  - {len(self.pages)} pages")
         print(f"  - {len(self.events)} events")
