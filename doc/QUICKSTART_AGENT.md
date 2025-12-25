@@ -2,7 +2,9 @@
 
 Quick reference for AI agents working on this codebase.
 
-> **See also**: [Agent Tips](agent_tips.md) for practical tips on image management, common issues, and workflows.
+> **See also**: 
+> - [Agent Tips](agent_tips.md) - Image management, common issues, workflows
+> - [GitHub Pages Setup](github_pages_setup.md) - Deployment and custom domain configuration
 
 ## Project Structure
 
