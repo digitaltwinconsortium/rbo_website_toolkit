@@ -5,8 +5,8 @@
 <div class="banner" style="background-image: url('{{ page.image | default('/assets/images/hero-banner.png') }}');">
     <div class="banner-overlay"></div>
     <div class="banner-content">
-        <h1 class="banner-title">{{ page.hero_title | default('Join the leading digital twin community in Singapore and Southeast Asia.') }}</h1>
-        <p class="banner-subtitle">{{ page.hero_subtitle | default('Receive updates about new initiatives, virtual meetings and in-person regional events by following us on LinkedIn.') }}</p>
+        <h1 class="banner-title">{{ page.hero_title }}</h1>
+        <p class="banner-subtitle">{{ page.hero_subtitle }}</p>
         <div class="banner-cta">
             <a href="{{ config.social.linkedin }}" class="btn btn-secondary" target="_blank" rel="noopener">Follow on LinkedIn</a>
         </div>
@@ -20,7 +20,7 @@
         <img src="{{ featured_event.image | default('/assets/images/events/default-event-banner.png') }}" alt="" class="featured-event-image">
         <div class="featured-event-content">
             <div class="featured-event-dates">
-                <p><strong>{{ featured_event.location | default('SINGAPORE') }}</strong> – {{ featured_event.date_display }} | {{ featured_event.time }}</p>
+                <p><strong>{{ featured_event.location | default('Location TBC') }}</strong> – {{ featured_event.date_display }} | {{ featured_event.time }}</p>
             </div>
             <h2 class="featured-event-title">{{ featured_event.title }}</h2>
             <p class="featured-event-description">{{ featured_event.description }}</p>
@@ -50,81 +50,49 @@
 </div>
 {% endif %}
 
-<!-- About Sections -->
+<!-- About Sections (data-driven from config) -->
+{% if config.about_sections %}
 <div class="about-sections">
-    <!-- About the RBO -->
+    {% for section in config.about_sections %}
     <section class="about-section">
-        <h2>About The Regional Branch Organizer</h2>
+        <h2>{{ section.title }}</h2>
         <div class="about-grid">
             <div class="about-column">
-                <img src="/assets/images/sponsors/axomem-logo.png" alt="Axomem" class="about-logo">
-                <p>Axomem has been appointed as the Regional Branch Organizer for Singapore and Southeast Asia to facilitate local Digital Twin Consortium® activities.</p>
-                <p>Axomem specializes in digital twin technology and enterprise software solutions, helping organizations build and deploy digital twins that drive operational excellence.</p>
+                <img src="{{ section.logo }}" alt="{{ section.logo_alt }}" class="about-logo">
+                {% for paragraph in section.paragraphs[:2] %}
+                <p>{{ paragraph }}</p>
+                {% endfor %}
             </div>
             <div class="about-column">
-                <p>Axomem's CEO, Sean Whiteley, brings extensive experience in digital twin platforms and enterprise software to lead the Singapore Regional Branch.</p>
-                <p class="learn-more">Learn more about Axomem:</p>
+                {% for paragraph in section.paragraphs[2:] %}
+                <p>{{ paragraph }}</p>
+                {% endfor %}
+                {% if section.learn_more %}
+                <p class="learn-more">{{ section.learn_more }}</p>
+                {% endif %}
+                {% if section.links %}
                 <div class="social-icons">
-                    <a href="https://axomem.com" target="_blank" rel="noopener" aria-label="Axomem Website">
+                    {% if section.links.website %}
+                    <a href="{{ section.links.website }}" target="_blank" rel="noopener" aria-label="{{ section.logo_alt }} Website">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                     </a>
-                    <a href="https://www.linkedin.com/company/axomem" target="_blank" rel="noopener" aria-label="Axomem LinkedIn">
+                    {% endif %}
+                    {% if section.links.linkedin %}
+                    <a href="{{ section.links.linkedin }}" target="_blank" rel="noopener" aria-label="{{ section.logo_alt }} LinkedIn">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                     </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Dell Co-founding Member -->
-    <section class="about-section">
-        <h2>Co-founding Member</h2>
-        <div class="about-grid">
-            <div class="about-column">
-                <img src="/assets/images/sponsors/dell-logo.png" alt="Dell Technologies" class="about-logo">
-                <p>Dell Technologies is a co-founding member of the Digital Twin Consortium Singapore Regional Branch, bringing world-class infrastructure and edge computing capabilities to the digital twin ecosystem.</p>
-            </div>
-            <div class="about-column">
-                <p>Dell's comprehensive portfolio of computing, storage, and networking solutions provides the foundation for enterprise-grade digital twin deployments across Southeast Asia.</p>
-                <p class="learn-more">Learn more about Dell Technologies:</p>
-                <div class="social-icons">
-                    <a href="https://www.dell.com/en-sg" target="_blank" rel="noopener" aria-label="Dell Singapore Website">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    </a>
-                    <a href="https://www.linkedin.com/company/delltechnologies" target="_blank" rel="noopener" aria-label="Dell Technologies LinkedIn">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- About DTC -->
-    <section class="about-section">
-        <h2>About The Digital Twin Consortium</h2>
-        <div class="about-grid">
-            <div class="about-column">
-                <img src="/assets/images/dtc-logo.svg" alt="Digital Twin Consortium" class="about-logo">
-                <p>Digital Twin Consortium® is The Authority in Digital Twin. It coalesces industry, government and academia to drive consistency in vocabulary, architecture, security and interoperability of digital twin technology.</p>
-                <p>It advances the use of digital twin technology from aerospace to natural resources.</p>
-            </div>
-            <div class="about-column">
-                <p>Digital Twin Consortium is open to any business, organization or entity with an interest in digital twins.</p>
-                <p>Their global membership is committed to using digital twins throughout their operations and supply chains and capturing best practices and standards requirements for themselves and their clients.</p>
-                <p class="learn-more">Learn more about the Digital Twin Consortium:</p>
-                <div class="social-icons">
-                    <a href="https://www.digitaltwinconsortium.org" target="_blank" rel="noopener" aria-label="DTC Website">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    </a>
-                    <a href="https://www.linkedin.com/company/digital-twin-consortium" target="_blank" rel="noopener" aria-label="DTC LinkedIn">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                    </a>
-                    <a href="https://twitter.com/DigitalTwinCon" target="_blank" rel="noopener" aria-label="DTC Twitter">
+                    {% endif %}
+                    {% if section.links.twitter %}
+                    <a href="{{ section.links.twitter }}" target="_blank" rel="noopener" aria-label="{{ section.logo_alt }} Twitter">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                     </a>
+                    {% endif %}
                 </div>
+                {% endif %}
             </div>
         </div>
     </section>
+    {% endfor %}
 </div>
+{% endif %}
 {% endblock %}
