@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="{{ config.site.default_locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ page.description | default(config.site.description) }}">
+    <title>{{ page.title }} - {{ config.site.name }}</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
+    {% if config.branding.favicon %}
+    <link rel="icon" href="{{ config.branding.favicon }}" sizes="32x32">
+    {% endif %}
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:locale" content="{{ config.site.default_locale | replace('-', '_') }}">
+    <meta property="og:site_name" content="{{ config.site.name }} - {{ config.site.tagline }}">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ page.title }} - {{ config.site.name }}">
+    <meta property="og:url" content="{{ config.site.url }}{{ page.url }}">
+    <meta property="og:image" content="{{ config.site.url }}{{ page.image | default('/assets/images/og-default.png') }}">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ page.title }} - {{ config.site.name }}">
+    <meta name="twitter:image" content="{{ config.site.url }}{{ page.image | default('/assets/images/og-default.png') }}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ config.site.url }}{{ page.url }}">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                {{ config.site.tagline }}
+            </div>
+        </div>
+    </div>
+    
+    {% include 'header.html' %}
+    
+    <main id="main-content" class="main-content" role="main">
+        {% block content %}{% endblock %}
+    </main>
+    
+    {% include 'footer.html' %}
+    
+    <script src="/assets/js/main.js"></script>
+</body>
+</html>

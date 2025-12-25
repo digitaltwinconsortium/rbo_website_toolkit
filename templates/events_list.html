@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Banner -->
+<div class="banner" style="background-image: url('/assets/images/events-banner.png');">
+    <div class="banner-overlay"></div>
+    <div class="banner-content container">
+        <h1 class="banner-title">EVENTS</h1>
+    </div>
+</div>
+
+<div class="events-page">
+    {% if upcoming_events %}
+    <section class="events-section">
+        <h2>Upcoming Events</h2>
+        <div class="events-grid">
+            {% for event in upcoming_events %}
+            <article class="event-card">
+                {% if event.image %}
+                <a href="{{ event.url }}">
+                    <img src="{{ event.image }}" alt="" class="event-card-image" loading="lazy">
+                </a>
+                {% endif %}
+                <div class="event-card-content">
+                    <div class="event-card-meta">
+                        <time datetime="{{ event.date_iso | default(event.date) }}" class="event-card-date">{{ event.date_display | default(event.date) }}</time>
+                    </div>
+                    <h3 class="event-card-title">
+                        <a href="{{ event.url }}">{{ event.title }}</a>
+                    </h3>
+                    <p class="event-card-location">{{ event.location | default('Singapore') }} • {{ event.format | default('In-Person') }}</p>
+                    <p class="event-card-excerpt">{{ event.description }}</p>
+                    <a href="{{ event.url }}" class="btn btn-secondary">Learn More &amp; Register</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% else %}
+    <div class="empty-state">
+        <h2>No Upcoming Events</h2>
+        <p>Check back soon for new events, or explore our past events below.</p>
+        <p>Follow us on <a href="{{ config.social.linkedin }}" target="_blank" rel="noopener">LinkedIn</a> for announcements.</p>
+    </div>
+    {% endif %}
+    
+    {% if past_events %}
+    <section class="events-section" id="past-events">
+        <h2>Past Events</h2>
+        <div class="events-grid">
+            {% for event in past_events %}
+            <article class="event-card">
+                {% if event.image %}
+                <a href="{{ event.url }}">
+                    <img src="{{ event.image }}" alt="" class="event-card-image" loading="lazy">
+                </a>
+                {% endif %}
+                <div class="event-card-content">
+                    <div class="event-card-meta">
+                        <time datetime="{{ event.date_iso | default(event.date) }}" class="event-card-date">{{ event.date_display | default(event.date) }}</time>
+                    </div>
+                    <h3 class="event-card-title">
+                        <a href="{{ event.url }}">{{ event.title }}</a>
+                    </h3>
+                    <p class="event-card-location">{{ event.location | default('Singapore') }} • {{ event.format | default('In-Person') }}</p>
+                    <p class="event-card-excerpt">{{ event.description }}</p>
+                    <a href="{{ event.url }}" class="btn btn-outline">View Details &amp; Resources</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}

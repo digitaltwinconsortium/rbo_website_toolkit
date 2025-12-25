@@ -1,0 +1,26 @@
+<footer class="site-footer" role="contentinfo">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>About {{ config.site.short_name }}</h3>
+            <p>{{ config.site.description }}</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Regional Branch Organizer</h3>
+            <p><a href="{{ config.organization.rbo_website }}" target="_blank" rel="noopener">{{ config.organization.rbo_name }}</a></p>
+            {% if config.social.linkedin %}
+            <p><a href="{{ config.social.linkedin }}" target="_blank" rel="noopener">Follow us on LinkedIn</a></p>
+            {% endif %}
+        </div>
+        
+        <div class="footer-section">
+            <h3>{{ config.organization.parent_org }}</h3>
+            <p><a href="{{ config.organization.parent_website }}" target="_blank" rel="noopener">Visit DTC Website</a></p>
+            <p><a href="{{ config.contact.dtc_contact_page }}" target="_blank" rel="noopener">Contact DTC</a></p>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; {{ config.organization.parent_org }} {{ current_year }}. The Digital Twin Consortium® name and its logo are registered trademarks of Object Management Group, Inc., a not-for-profit 501(c)(6) tax-exempt organization. Other logos, products and company names referenced on this website are property of their respective companies. A Digital Twin Consortium Regional Branch is a part of Digital Twin Consortium and adheres to the same policies and procedures as any other member of Digital Twin Consortium. A Regional Branch does not represent Digital Twin Consortium, and does not speak for the organization, its staff nor any member.</p>
+    </div>
+</footer>

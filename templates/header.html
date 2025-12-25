@@ -1,0 +1,47 @@
+<header class="site-header" role="banner">
+    <div class="header-main">
+        <div class="header-container">
+            <div class="logo-section">
+                <a href="/" class="logo-link" aria-label="{{ config.site.name }} - Home">
+                    {% if config.branding.logo %}
+                    <img src="{{ config.branding.logo }}" alt="{{ config.site.name }}" class="site-logo">
+                    {% else %}
+                    <div class="site-title">
+                        <h1>{{ config.site.short_name }}</h1>
+                    </div>
+                    {% endif %}
+                </a>
+            </div>
+            
+            <nav class="main-navigation" aria-label="Main navigation" role="navigation">
+                <button class="mobile-menu-toggle" 
+                        aria-expanded="false" 
+                        aria-controls="nav-menu"
+                        aria-label="Toggle navigation menu">
+                    <span class="sr-only">Menu</span>
+                    <span class="hamburger" aria-hidden="true"></span>
+                </button>
+                <ul id="nav-menu" class="nav-menu">
+                    {% for item in config.navigation %}
+                    {% if item.enabled is not defined or item.enabled %}
+                    <li class="nav-item{% if item.children %} has-dropdown{% endif %}{% if page.url == item.url or (item.url != '/' and page.url and page.url.startswith(item.url)) %} active{% endif %}">
+                        <a href="{{ item.url }}"{% if item.children %} aria-haspopup="true" aria-expanded="false"{% endif %}>
+                            {{ item.label }}{% if item.children %}<span class="dropdown-arrow" aria-hidden="true"></span>{% endif %}
+                        </a>
+                        {% if item.children %}
+                        <ul class="dropdown-menu" role="menu">
+                            {% for child in item.children %}
+                            <li role="none">
+                                <a href="{{ child.url }}" role="menuitem"{% if child.external %} target="_blank" rel="noopener"{% endif %}>{{ child.label }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>

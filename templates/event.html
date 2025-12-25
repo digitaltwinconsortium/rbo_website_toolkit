@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<article class="event-page" itemscope itemtype="https://schema.org/Event">
+    <!-- Banner -->
+    {% if event.image %}
+    <div class="event-banner" style="background-image: url('{{ event.image }}');">
+        <div class="event-banner-overlay"></div>
+        <div class="event-banner-content">
+            <h1 itemprop="name">{{ event.title }}</h1>
+        </div>
+    </div>
+    {% else %}
+    <div class="banner" style="background-image: url('/assets/images/events/default-event-banner.png');">
+        <div class="banner-overlay"></div>
+        <div class="banner-content container">
+            <h1 class="banner-title" itemprop="name">{{ event.title }}</h1>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Event Meta -->
+    <div class="row align-center">
+        <div class="col-10">
+            <!-- Status Badge -->
+            <div class="event-status-badge" style="margin-top: 2rem;">
+                {% if event.status == 'upcoming' %}
+                <span class="badge badge-upcoming">Upcoming Event</span>
+                {% elif event.status == 'past' %}
+                <span class="badge badge-past">Past Event</span>
+                {% endif %}
+            </div>
+            
+            <div class="event-meta">
+                <div class="event-date">
+                    <span class="icon" aria-hidden="true">📅</span>
+                    <time datetime="{{ event.date_iso | default(event.date) }}" itemprop="startDate">{{ event.date_display | default(event.date) }}</time>
+                </div>
+                {% if event.time %}
+                <div class="event-time">
+                    <span class="icon" aria-hidden="true">🕐</span>
+                    <span>{{ event.time }} {{ event.timezone | default('SGT') }}</span>
+                </div>
+                {% endif %}
+                {% if event.location %}
+                <div class="event-location" itemprop="location" itemscope itemtype="https://schema.org/Place">
+                    <span class="icon" aria-hidden="true">📍</span>
+                    <span itemprop="name">{{ event.location }}</span>
+                </div>
+                {% endif %}
+                {% if event.format %}
+                <div class="event-format">
+                    <span class="icon" aria-hidden="true">🌐</span>
+                    <span>{{ event.format }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Event Content -->
+    <div class="event-content" itemprop="description">
+        {{ content | safe }}
+    </div>
+    
+    <!-- UPCOMING EVENT: Registration CTA -->
+    {% if event.status == 'upcoming' and event.registration_url %}
+    <section class="event-cta">
+        <h2>Register for This Event</h2>
+        <a href="{{ event.registration_url }}" 
+           class="btn btn-secondary btn-large" 
+           target="_blank" 
+           rel="noopener"
+           itemprop="url">
+            Register Now
+        </a>
+        {% if event.registration_platform %}
+        <p class="registration-note">Registration is handled via {{ event.registration_platform }}</p>
+        {% endif %}
+    </section>
+    {% endif %}
+    
+    <!-- PAST EVENT: Recording Section -->
+    {% if event.status == 'past' and event.recording_url %}
+    <section class="event-cta">
+        <h2>Event Recording</h2>
+        {% if event.recording_embed_url %}
+        <div class="video-container">
+            <iframe src="{{ event.recording_embed_url }}" 
+                    title="{{ event.title }} - Recording"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen
+                    loading="lazy"></iframe>
+        </div>
+        {% else %}
+        <a href="{{ event.recording_url }}" class="btn btn-primary" target="_blank" rel="noopener">
+            Watch Recording
+        </a>
+        {% endif %}
+    </section>
+    {% endif %}
+    
+    <!-- Speakers Section -->
+    {% if event.speakers %}
+    <section class="event-speakers">
+        <h2 class="section-title">Speakers</h2>
+        <div class="speakers-grid">
+            {% for speaker in event.speakers %}
+            <div class="speaker-card" itemscope itemtype="https://schema.org/Person">
+                {% if speaker.image %}
+                <img src="{{ speaker.image }}" alt="{{ speaker.name }}" class="speaker-photo" itemprop="image" loading="lazy">
+                {% else %}
+                <img src="/assets/images/team/default-speaker.png" alt="{{ speaker.name }}" class="speaker-photo" loading="lazy">
+                {% endif %}
+                <h3 itemprop="name">{{ speaker.name }}</h3>
+                <p class="speaker-title" itemprop="jobTitle">{{ speaker.title }}</p>
+                <p class="speaker-org" itemprop="worksFor">{{ speaker.organization }}</p>
+                {% if speaker.remote %}
+                <p class="speaker-note" style="font-size: 0.75rem; color: var(--secondary-color);">Joining Remotely</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+    
+    <!-- Sponsors Section -->
+    {% if event.sponsors %}
+    <section class="sponsors-section">
+        <h2 class="section-title">Event Sponsors</h2>
+        <div class="sponsors-grid">
+            {% for sponsor in event.sponsors %}
+            <a href="{{ sponsor.url }}" target="_blank" rel="noopener" aria-label="{{ sponsor.name }}">
+                <img src="{{ sponsor.logo }}" alt="{{ sponsor.name }}" class="sponsor-logo" loading="lazy">
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+    
+    <div class="event-footer">
+        <a href="/events/" class="back-link">← Back to Events</a>
+    </div>
+</article>
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "{{ event.title }}",
+  "description": "{{ event.description | default(page.description) }}",
+  "startDate": "{{ event.date_iso | default(event.date) }}",
+  "eventStatus": "{% if event.status == 'upcoming' %}https://schema.org/EventScheduled{% else %}https://schema.org/EventMovedOnline{% endif %}",
+  "location": {
+    "@type": "Place",
+    "name": "{{ event.location | default('Singapore') }}"
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "{{ config.site.name }}",
+    "url": "{{ config.site.url }}"
+  }
+}
+</script>
+{% endblock %}

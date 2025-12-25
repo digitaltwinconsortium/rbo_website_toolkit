@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Banner -->
+<div class="banner" style="background-image: url('/assets/images/contact-banner.png');">
+    <div class="banner-overlay"></div>
+    <div class="banner-content container">
+        <h1 class="banner-title">{{ page.title }}</h1>
+    </div>
+</div>
+
+<div class="contact-page">
+    <div class="row align-center">
+        <div class="col-8">
+            <h2 class="section-title">Contact</h2>
+            
+            <div class="contact-content">
+                {{ content | safe }}
+            </div>
+        </div>
+    </div>
+    
+    <div class="contact-options">
+        {% if config.social.linkedin %}
+        <div class="contact-card primary-contact">
+            <div class="contact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+            </div>
+            <h2>Connect on LinkedIn</h2>
+            <p>You can contact the Regional Branch Organizer via our LinkedIn page. Follow us for event announcements, industry insights, and to connect with the digital twin community in Singapore.</p>
+            <a href="{{ config.social.linkedin }}" class="btn btn-primary btn-large" target="_blank" rel="noopener">
+                Contact Us on LinkedIn
+            </a>
+        </div>
+        {% endif %}
+        
+        <div class="contact-card">
+            <h2>Digital Twin Consortium</h2>
+            <p>For global DTC updates, membership information, and worldwide events:</p>
+            <a href="{{ config.organization.parent_website }}" class="btn btn-outline" target="_blank" rel="noopener">
+                Visit DTC Website
+            </a>
+        </div>
+        
+        {% if config.contact.email %}
+        <div class="contact-card">
+            <h2>Email Us</h2>
+            <p>Have questions about our regional activities or want to get involved?</p>
+            <a href="mailto:{{ config.contact.email }}" class="btn btn-outline">
+                {{ config.contact.email }}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    
+    <hr class="divider">
+    
+    <!-- RBO Info -->
+    <div class="rbo-info">
+        <img src="/assets/images/sponsors/axomem-logo.png" alt="{{ config.organization.rbo_name }}">
+        <p>{{ config.organization.rbo_name }} has been appointed the Regional Branch Organizer for Southeast Asia to facilitate local Digital Twin Consortium® activities.</p>
+    </div>
+</div>
+{% endblock %}
