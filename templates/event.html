@@ -64,18 +64,29 @@
     </div>
     
     <!-- UPCOMING EVENT: Registration CTA -->
-    {% if event.status == 'upcoming' and event.registration_url %}
+    {% if event.status == 'upcoming' %}
     <section class="event-cta">
         <h2>Register for This Event</h2>
-        <a href="{{ event.registration_url }}" 
-           class="btn btn-secondary btn-large" 
-           target="_blank" 
+        {% if event.registration_open is defined and not event.registration_open %}
+        <button type="button"
+                class="btn btn-secondary btn-large"
+                disabled
+                aria-disabled="true"
+                style="opacity: 0.5; cursor: not-allowed; pointer-events: none;">
+            Register Now
+        </button>
+        <p class="registration-note">Registration is opening soon.</p>
+        {% elif event.registration_url %}
+        <a href="{{ event.registration_url }}"
+           class="btn btn-secondary btn-large"
+           target="_blank"
            rel="noopener"
            itemprop="url">
             Register Now
         </a>
         {% if event.registration_platform %}
         <p class="registration-note">Registration is handled via {{ event.registration_platform }}</p>
+        {% endif %}
         {% endif %}
     </section>
     {% endif %}
