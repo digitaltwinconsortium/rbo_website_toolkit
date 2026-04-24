@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="{{ config.site.default_locale }}">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecting&hellip;</title>
+    <link rel="canonical" href="{{ config.site.url }}{{ page.redirect }}">
+    <meta http-equiv="refresh" content="0; url={{ page.redirect }}">
+    <meta name="robots" content="noindex">
+</head>
+<body>
+    <p>This page has moved. If you are not redirected automatically, <a href="{{ page.redirect }}">follow this link</a>.</p>
+</body>
+</html>

@@ -111,7 +111,9 @@ class SiteBuilder:
         """Determine which template to use."""
         path_str = str(filepath)
 
-        if '/events/' in path_str:
+        if metadata.get('redirect'):
+            return 'redirect.html'
+        elif '/events/' in path_str:
             return 'event.html'
         elif 'contact' in path_str:
             return 'contact.html'
@@ -170,7 +172,7 @@ class SiteBuilder:
             metadata, html_content = self.process_content_file(content_file, default_locale)
 
             path_str = str(content_file)
-            if '/events/' in path_str:
+            if '/events/' in path_str and not metadata.get('redirect'):
                 self.events.append(metadata)
 
             self.pages.append({
